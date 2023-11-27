@@ -16,7 +16,7 @@ client.connect(SERVER_PORT, SERVER_IP, () => {
   // Handle user input
   process.stdin.on("data", (data) => {
     const command = data.toString().trim().split(" ");
-    formatRequest(command[0], command[1], command[2]);
+    formatRequest(command[0], command[1], command[2], client);
   });
 });
 
@@ -32,21 +32,9 @@ function sendCommand(actionBinary) {
   client.write(actionBinary);
 }
 
-function formatRequest(action, file, newFileName) {
+function formatRequest(action, file, newFileName, client) {
   let byte0, byte1, byte2, byte3;
   switch (action) {
-    case "get":
-      if (file === undefined) {
-        console.log(`\nYou need an argument with ${action} command`);
-        console.log("Type help for help with the commands\n");
-        break;
-      }
-      if (file.length > 30) {
-        console.log("\n The name of the file is too long\n");
-        break;
-      }
-      break;
-    //sendCommand(action, file);
     case "put":
       if (file === undefined) {
         console.log(`\nYou need an argument with ${action} command`);
@@ -62,21 +50,74 @@ function formatRequest(action, file, newFileName) {
         "000" +
         String(((file.length + 1) & 0b11111).toString(2).padStart(5, "0"));
       byte1 = toBinary(file);
-      const size = getFileSize(file);
-      if (size == -1) {
+      const sizePut = getFileSize(file);
+      if (sizePut == -1) {
         break;
       }
-      byte2 = (size & 0b11111111111111111111111111111111)
+
+      byte2 = (sizePut & 0b11111111111111111111111111111111)
         .toString(2)
         .padStart(32, "0");
 
-      byte3 = fileToBinary(file);
-      if (file == -1) {
+      byte3 = send(client, file);
+      if (byte3 == -1) {
         break;
       }
 
-      const command = byte0 + " " + byte1 + " " + byte2 + " " + byte3;
-      sendCommand(command);
+      const commandPut = byte0 + " " + byte1 + " " + byte2 + " " + byte3;
+      sendCommand(commandPut);
+      break;
+
+    case "get":
+      if (file === undefined) {
+        console.log(`\nYou need an argument with ${action} command`);
+        console.log("Type help for help with the commands\n");
+        break;
+      }
+      if (file.length > 30) {
+        console.log("\n The name of the file is too long\n");
+        break;
+      }
+      byte0 =
+        "001" +
+        String(((file.length + 1) & 0b11111).toString(2).padStart(5, "0"));
+      byte1 = toBinary(file);
+      const sizeGet = getFileSize(file);
+      if (sizeGet == -1) {
+        break;
+      }
+      byte2 = (sizeGet & 0b11111111111111111111111111111111)
+        .toString(2)
+        .padStart(32, "0");
+
+      const commandGet = byte0 + " " + byte1 + " " + byte2;
+      sendCommand(commandGet);
+      break;
+
+    case "change":
+      if (newFileName === undefined || file === undefined) {
+        console.log(`\nYou need two arguments with ${action} command`);
+        console.log("Type help for help with the commands\n");
+        break;
+      }
+      if (file.length > 30 || newFileName > 30) {
+        console.log("\n The name of the file is too long\n");
+        break;
+      }
+      byte0 =
+        "010" +
+        String(((file.length + 1) & 0b11111).toString(2).padStart(5, "0"));
+
+      byte1 = toBinary(file);
+
+      byte2 = String(
+        ((newFileName.length + 1) & 0b11111111).toString(2).padStart(8, "0")
+      );
+
+      byte3 = toBinary(newFileName);
+
+      const commandChange = byte0 + " " + byte1 + " " + byte2 + " " + byte3;
+      sendCommand(commandChange);
       break;
 
     case "summary":
@@ -89,79 +130,103 @@ function formatRequest(action, file, newFileName) {
         console.log("\n The name of the file is too long\n");
         break;
       }
-      break;
-    case "change":
-      if (newFileName === undefined || file === undefined) {
-        console.log(`\nYou need two arguments with ${action} command`);
-        console.log("Type help for help with the commands\n");
-        break;
-      }
-      if (file.length > 30 || newFileName > 30) {
-        console.log("\n The name of the file is too long\n");
-        break;
-      }
+      byte0 =
+        "011" +
+        String(((file.length + 1) & 0b11111).toString(2).padStart(5, "0"));
+
+      byte1 = toBinary(file);
+
+      const commandSummary = byte0 + " " + byte1;
+      sendCommand(commandSummary);
+
       break;
 
     case "help":
-      /*console.log('\nHere are the 6 possible options : \n')
-      console.log('1. get filename.xxx to retrieve a file from the server\n');
-      console.log('2. put filename.xxx to store a file in the server\n');
-      console.log('3. summary filename.xxx to get the statistical summary of a file from the server\n')
-      console.log('4. change filename.xxx newFileName.xxx to change the name of a file in the server\n');
-      console.log('5. help for help with the commands\n');
-      console.log('6. bye to end the connection with the server\n');*/
-
-      //sendRequest to the server which answers the following ^^
+      byte0 = "10000000";
+      const commandHelp = byte0;
+      sendCommand(commandHelp);
       break;
     case "bye":
       client.end();
       break;
     default:
-      console.log('\nInvalid command. Use "get", "put", or "quit".\n');
+      console.log('\nInvalid command. Use "help" for help.\n');
   }
+}
 
-  function toBinary(str) {
-    return str.replace(/[\s\S]/g, function (str) {
-      str = zeroPad(str.charCodeAt().toString(2));
-      return str;
-    });
+function toBinary(str) {
+  return str.replace(/[\s\S]/g, function (str) {
+    str = zeroPad(str.charCodeAt().toString(2));
+    return str;
+  });
+}
+
+function zeroPad(num) {
+  return "00000000".slice(String(num).length) + num;
+}
+
+function toAscii(bin) {
+  const result = bin.replace(/\s*[01]{8}\s*/g, function (bin) {
+    return String.fromCharCode(parseInt(bin, 2));
+  });
+  return result;
+}
+
+function getFileSize(file) {
+  let filePath = "./" + file;
+  try {
+    const stats = fs.statSync(filePath);
+    const fileSizeInBytes = stats.size;
+
+    return fileSizeInBytes;
+  } catch (err) {
+    console.error(`Error getting file size: ${err.message}`);
+    return -1;
   }
+}
 
-  function zeroPad(num) {
-    return "00000000".slice(String(num).length) + num;
-  }
-
-  function toAscii(bin) {
-    const result = bin.replace(/\s*[01]{8}\s*/g, function (bin) {
-      return String.fromCharCode(parseInt(bin, 2));
-    });
-    return result;
-  }
-
-  function getFileSize(file) {
+function fileToBinary(file) {
+  try {
     let filePath = "./" + file;
-    try {
-      const stats = fs.statSync(filePath);
-      const fileSizeInBytes = stats.size;
+    const fileData = fs.readFileSync(filePath);
+    const binaryString = fileData.toString("binary");
+    const result = toBinary(binaryString);
+    console.log(result.length / 8);
 
-      return fileSizeInBytes;
-    } catch (err) {
-      console.error(`Error getting file size: ${err.message}`);
-      return -1;
-    }
+    return result;
+  } catch (err) {
+    console.error(`Error reading file: ${err.message}`);
+    return -1;
   }
+}
 
-  function fileToBinary(file) {
-    try {
-      let filePath = "./" + file;
-      const fileData = fs.readFileSync(filePath);
-      const binaryString = fileData.toString("binary");
-      const result = toBinary(binaryString);
-
-      return result;
-    } catch (err) {
-      console.error(`Error reading file: ${err.message}`);
-      return -1;
-    }
+async function fileToBinary2(filePath) {
+  try {
+    // Read the file and convert to base64
+    filePath = "./" + filePath;
+    fileData = fs.createReadStream(filePath);
+    console.log(fileData);
+    return fileData;
+  } catch (err) {
+    console.error(`Error reading file: ${err.message}`);
+    return null;
   }
+}
+
+function send(conn, filename) {
+  filename = "./" + filename;
+  const readStream = fs.createReadStream(filename, { highWaterMark: 1024 });
+
+  readStream.on("data", (data) => {
+    conn.write(data);
+  });
+
+  readStream.on("end", () => {
+    conn.end();
+  });
+
+  readStream.on("error", (err) => {
+    console.error(`Error reading file: ${err.message}`);
+    conn.end(); // Close the connection in case of an error
+  });
 }
