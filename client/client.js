@@ -3,7 +3,7 @@ const fs = require("fs");
 const { toASCII } = require("punycode");
 
 const client = new net.Socket();
-
+let clientData = "";
 const SERVER_IP = process.argv[2] || "127.0.0.1";
 const SERVER_PORT = process.argv[3] || 3000;
 const DEBUG_MODE = false;
@@ -16,12 +16,13 @@ client.connect(SERVER_PORT, SERVER_IP, () => {
   // Handle user input
   process.stdin.on("data", (data) => {
     const command = data.toString().trim().split(" ");
+    clientData = command;
     formatRequest(command[0], command[1], command[2], client);
   });
 });
 
 client.on("data", (data) => {
-  console.log("HERE", data.toString());
+  handleServerResponse(data);
 });
 
 client.on("end", () => {
@@ -59,12 +60,9 @@ function formatRequest(action, file, newFileName, client) {
         .toString(2)
         .padStart(32, "0");
 
-      byte3 = send(client, file);
-      if (byte3 == -1) {
-        break;
-      }
+      send(client, file);
 
-      const commandPut = byte0 + " " + byte1 + " " + byte2 + " " + byte3;
+      const commandPut = byte0 + " " + byte1 + " " + byte2;
       sendCommand(commandPut);
       break;
 
@@ -154,6 +152,43 @@ function formatRequest(action, file, newFileName, client) {
   }
 }
 
+function handleServerResponse(data) {
+  const newData = data.toString();
+  const command = newData.toString().trim().split(" ");
+
+  const opcode = command[0].substring(0, 3);
+
+  if (opcode === "000" && clientData[0] === "put") {
+    console.log(clientData[1], "downloaded successfully");
+  } else if (opcode === "000" && clientData[2]) {
+    console.log(
+      "file",
+      clientData[1],
+      "has been succesfully changed to ",
+      clientData[2]
+    );
+  } else if (opcode === "001") {
+    //call get function
+    console.log("get not yet set up");
+  } else if (opcode === "010") {
+    console.log("summary");
+  } else if (opcode === "011") {
+    console.log("Error : file ", clientData[1], "not found in the database");
+  } else if (opcode === "100") {
+    console.log("Command Not Found");
+  } else if (opcode === "101") {
+    console.log(
+      "The change of ",
+      clientData[1],
+      " to ",
+      clientData[2],
+      "has been unsuccesful"
+    );
+  } else if (opcode === "110") {
+    console.log(toAscii(command[1]));
+  }
+}
+
 function toBinary(str) {
   return str.replace(/[\s\S]/g, function (str) {
     str = zeroPad(str.charCodeAt().toString(2));
@@ -182,34 +217,6 @@ function getFileSize(file) {
   } catch (err) {
     console.error(`Error getting file size: ${err.message}`);
     return -1;
-  }
-}
-
-function fileToBinary(file) {
-  try {
-    let filePath = "./" + file;
-    const fileData = fs.readFileSync(filePath);
-    const binaryString = fileData.toString("binary");
-    const result = toBinary(binaryString);
-    console.log(result.length / 8);
-
-    return result;
-  } catch (err) {
-    console.error(`Error reading file: ${err.message}`);
-    return -1;
-  }
-}
-
-async function fileToBinary2(filePath) {
-  try {
-    // Read the file and convert to base64
-    filePath = "./" + filePath;
-    fileData = fs.createReadStream(filePath);
-    console.log(fileData);
-    return fileData;
-  } catch (err) {
-    console.error(`Error reading file: ${err.message}`);
-    return null;
   }
 }
 
