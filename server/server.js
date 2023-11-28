@@ -1,87 +1,172 @@
 const net = require("net");
 const fs = require("fs");
 
-const server = net.createServer();
-
 const PORT = process.argv[2] || 3000;
 let DEBUG_MODE = false;
-if (process.argv[3] === "1") {
-  DEBUG_MODE = true;
-}
+let firstByte = true;
 
-let handleRequestData = { writeStream: null, handled: false };
+const server = net.createServer();
 
 server.on("connection", (socket) => {
-  if (DEBUG_MODE) {
-    console.log("Client connected");
-  }
+  console.log("\nClient connected\n");
 
   socket.on("data", (data) => {
-    const newData = data.toString();
-    const command = newData.toString().trim().split(" ");
-
-    handleRequest(command, socket, handleRequestData, data);
+    if (firstByte) {
+      handleRequest(data, socket);
+    }
   });
 
   socket.on("end", () => {
-    if (handleRequestData.writeStream) {
-      handleRequestData.writeStream.end();
-    }
-
-    handleRequestData.handled = false;
+    console.log("\nClient disconnected\n");
   });
 
   socket.on("error", (err) => {
-    console.error(`Error with the socket: ${err.message}`);
-    if (handleRequestData.writeStream) {
-      handleRequestData.writeStream.end();
-    }
-    handleRequestData.handled = false;
+    console.error(`\nCONNECTION LOST WITH THE CLIENT\n`);
+    // Handle the error event
   });
 });
 
 server.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
 
-function handleRequest(command, socket, handleRequestData, data) {
-  let header = "";
-  if (handleRequestData.handled === false) {
-    header = command[0].substring(0, 3);
-  } else {
-    header = "111";
-  }
-  if (header === "000" || header === "111") {
-    if (header === "111") {
-      if (handleRequestData.writeStream) {
-        handleData(data, handleRequestData.writeStream, socket);
-      }
+function handleRequest(data, socket) {
+  try {
+    const command = data.toString().trim().split(" ");
+    const opcode = command[0].substring(0, 3);
+
+    if (opcode === "000") {
+      firstByte = false;
+      handlePut(command, socket);
+    } else if (opcode === "001") {
+      handleGet(command, socket);
+    } else if (opcode === "010") {
+      handleChange(command, socket);
+    } else if (opcode === "011") {
+      handleSummary(command, socket);
+    } else if (opcode === "100") {
+      handleHelp(socket);
     } else {
-      const filename = toAscii(command[1]);
-      const filePath = "./" + filename;
-
-      putRequest(filePath, socket, handleRequestData, socket);
-      handleRequestData.handled = true;
+      handleUnknown(socket);
     }
-  } else if (header === "001") {
-    //get
-    const filenameGet = toAscii(command[1]);
-    const filePathGet = "./" + filenameGet;
-    getRequest(filePathGet, socket);
+  } catch (error) {
+    console.error(`Error handling request: ${error.message}`);
+  }
+}
 
-    console.log("get");
-  } else if (header === "010") {
-    const filenameChange = toAscii(command[1]);
-    const filePathChange = "./" + filenameChange;
-    changeRequest(filePathChange, command[2], socket);
-  } else if (header === "011") {
-    //summary
-    console.log("summary");
-    serverResponse("010", null, socket);
-  } else if (header === "100") {
-    //help
-    const optionsString = `
-    \nHere are the 6 possible options:
+function handlePut(command, socket) {
+  const filename = toAscii(command[1]);
+  const filePath = "./" + filename;
+
+  const writeStream = fs.createWriteStream(filePath);
+  let isWritting = false;
+
+  function onData(data) {
+    isWritting = true;
+    if (data.toString().includes("finished")) {
+      const finishedIndex = data.toString().indexOf("finished");
+      const remainingData = data.toString().slice(0, finishedIndex);
+
+      writeStream.write(remainingData);
+      writeStream.end();
+      isWritting = false;
+
+      console.log("Put request handled with success");
+      serverResponse("000", socket);
+
+      firstByte = true;
+
+      // Remove the "data" event listener
+      socket.off("data", onData);
+    } else {
+      handleData(data, writeStream, socket);
+    }
+  }
+
+  socket.on("data", onData);
+
+  socket.on("end", () => {});
+
+  socket.on("error", (err) => {
+    if (isWritting) {
+      console.error(`Error reading the file!`);
+      writeStream.end();
+    }
+  });
+}
+
+function handleGet(command, socket) {
+  const filenameGet = toAscii(command[1]);
+  const filePathGet = "./" + filenameGet;
+
+  if (fs.existsSync(filePathGet)) {
+    const filenameLength = (filenameGet.length + 1)
+      .toString(2)
+      .padStart(5, "0");
+    const sizeGet = getFileSize(filePathGet);
+    const sizeBinary = sizeGet.toString(2).padStart(32, "0");
+    const commandGet =
+      "001" + filenameLength + " " + toBinary(filenameGet) + " " + sizeBinary;
+
+    serverResponse(commandGet, socket);
+    send(socket, filenameGet);
+
+    console.log("Get request handled with success, data has been sent");
+  } else {
+    serverResponse("011", socket);
+  }
+}
+
+function handleChange(command, socket) {
+  const filenameChange = toAscii(command[1]);
+  const filePathChange = "./" + filenameChange;
+  const newFilenameChange = toAscii(command[3]);
+  const newFilePathChange = "./" + newFilenameChange;
+
+  const ext1 = filePathChange.split(".")[2];
+  const ext2 = newFilePathChange.split(".")[2];
+
+  if (ext1 !== ext2) {
+    serverResponse("101", socket);
+  } else {
+    fs.rename(filePathChange, newFilePathChange, (err) => {
+      if (err) {
+        console.error(`Error renaming file`);
+
+        serverResponse("101", socket);
+      } else {
+        console.log("Change request handled with success");
+        serverResponse("000", socket);
+      }
+    });
+  }
+}
+
+function handleSummary(command, socket) {
+  console.log("Summary request handled with success");
+  serverResponse("010", socket);
+}
+
+function send(conn, filename) {
+  filename = "./" + filename;
+  const readStream = fs.createReadStream(filename, { highWaterMark: 1024 });
+
+  readStream.on("data", (data) => {
+    conn.write(data);
+  });
+
+  readStream.on("end", () => {
+    conn.write("finished");
+  });
+
+  readStream.on("error", (err) => {
+    console.error(`Error reading file: ${err.message}`);
+    //conn.error(); // Close the connection in case of an error
+  });
+}
+
+function handleHelp(socket) {
+  const optionsString = `Here are the 6 possible options:
     1. get filename.xxx to retrieve a file from the server
     2. put filename.xxx to store a file in the server
     3. summary filename.xxx to get the statistical summary of a file from the server
@@ -89,39 +174,34 @@ function handleRequest(command, socket, handleRequestData, data) {
     5. help for help with the commands
     6. bye to end the connection with the server`;
 
-    const helpAnswer = toBinary(optionsString);
-    const opcode =
-      "110" +
-      String(
-        ((optionsString.length + 1) & 0b11111).toString(2).padStart(5, "0")
-      );
-    serverResponse(opcode, helpAnswer, socket);
-  } else {
-    serverResponse("100", null, socket);
-    console.log("wrong command");
-  }
+  const helpAnswer = toBinary(optionsString);
+  const opcode =
+    "110" + (optionsString.length + 1).toString(2).padStart(5, "0");
+  console.log("Help request handled with success");
+  serverResponse(opcode + " " + helpAnswer, socket);
 }
 
-function serverResponse(opcode, message, socket) {
-  response = opcode + " " + message;
-  socket.write(response);
+function handleUnknown(socket) {
+  serverResponse("100", socket);
+  console.log("wrong command");
+}
+
+function serverResponse(opcode, socket) {
+  socket.write(opcode);
 }
 
 function toAscii(bin) {
-  return bin.replace(/\s*[01]{8}\s*/g, function (bin) {
-    return String.fromCharCode(parseInt(bin, 2));
-  });
+  return bin.replace(/\s*[01]{8}\s*/g, (bin) =>
+    String.fromCharCode(parseInt(bin, 2))
+  );
 }
 
 function toBinary(str) {
-  return str.replace(/[\s\S]/g, function (str) {
-    str = zeroPad(str.charCodeAt().toString(2));
-    return str;
-  });
+  return str.replace(/[\s\S]/g, (str) => zeroPad(str.charCodeAt().toString(2)));
 }
 
 function zeroPad(num) {
-  return "00000000".slice(String(num).length) + num;
+  return "00000000".slice(num.length) + num;
 }
 
 function handleData(data, writeStream) {
@@ -130,40 +210,12 @@ function handleData(data, writeStream) {
   }
 }
 
-function putRequest(filePath, socket, handleRequestData) {
-  handleRequestData.writeStream = fs.createWriteStream(filePath);
-
-  socket.on("end", () => {
-    if (handleRequestData.writeStream) {
-      handleRequestData.writeStream.end();
-      console.log(`File "${filePath}" stored successfully.`);
-      serverResponse("000", null, socket);
-    }
-    console.log("Client disconnected");
-  });
-
-  socket.on("error", (err) => {
-    console.error(`Error with the socket: ${err.message}`);
-    if (handleRequestData.writeStream) {
-      handleRequestData.writeStream.end();
-    }
-  });
-}
-
-function getRequest(filePath) {
-  if (fs.existsSync(filePath)) {
-    serverResponse("001", "xxxxx", socket);
-  } else {
-    serverResponse("011", null, socket);
+function getFileSize(file) {
+  try {
+    const stats = fs.statSync(file);
+    return stats.size;
+  } catch (err) {
+    console.error(`Error getting file size: ${err.message}`);
+    return -1;
   }
-}
-
-function changeRequest(filePath, newFilePath, socket) {
-  fs.rename(filePath, newFilePath, (err) => {
-    if (err) {
-      serverResponse("101", null, socket);
-    } else {
-      serverResponse("000", null, socket);
-    }
-  });
 }
