@@ -1,0 +1,5 @@
+The minimum value is : 1
+
+    The maximum value is : 6
+
+    The average value is : 3.5

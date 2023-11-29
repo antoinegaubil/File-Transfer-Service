@@ -5,13 +5,20 @@ const PORT = process.argv[2] || 3000;
 let DEBUG_MODE = false;
 let firstByte = true;
 
+if (process.argv[3] === "1") {
+  DEBUG_MODE = true;
+}
+
 const server = net.createServer();
 
 server.on("connection", (socket) => {
-  console.log("\nClient connected\n");
+  console.log(`\nClient connected wiht port number ${PORT}\n`);
 
   socket.on("data", (data) => {
     if (firstByte) {
+      if (DEBUG_MODE) {
+        console.log("DEBUG MODE REQUEST FROM CLIENT :", data.toString());
+      }
       handleRequest(data, socket);
     }
   });
@@ -32,8 +39,11 @@ server.listen(PORT, () => {
 
 function handleRequest(data, socket) {
   try {
+    let response = "";
+
     const command = data.toString().trim().split(" ");
     const opcode = command[0].substring(0, 3);
+    console.log("sinhandleR", opcode);
 
     if (opcode === "000") {
       firstByte = false;
@@ -45,23 +55,28 @@ function handleRequest(data, socket) {
     } else if (opcode === "011") {
       handleSummary(command, socket);
     } else if (opcode === "100") {
-      handleHelp(socket);
+      response = handleHelp(socket);
     } else {
       handleUnknown(socket);
     }
+    return response;
   } catch (error) {
     console.error(`Error handling request: ${error.message}`);
+    return error;
   }
 }
 
 function handlePut(command, socket) {
   const filename = toAscii(command[1]);
-  const filePath = "./" + filename;
+  const filePath = "database/" + filename;
 
   const writeStream = fs.createWriteStream(filePath);
   let isWritting = false;
 
   function onData(data) {
+    if (DEBUG_MODE) {
+      console.log("DEBUG MODE DATA RECEIVED FROM CLIENT : ", data.toString());
+    }
     isWritting = true;
     if (data.toString().includes("finished")) {
       const finishedIndex = data.toString().indexOf("finished");
@@ -97,7 +112,7 @@ function handlePut(command, socket) {
 
 function handleGet(command, socket) {
   const filenameGet = toAscii(command[1]);
-  const filePathGet = "./" + filenameGet;
+  const filePathGet = "database/" + filenameGet;
 
   if (fs.existsSync(filePathGet)) {
     const filenameLength = (filenameGet.length + 1)
@@ -119,9 +134,9 @@ function handleGet(command, socket) {
 
 function handleChange(command, socket) {
   const filenameChange = toAscii(command[1]);
-  const filePathChange = "./" + filenameChange;
+  const filePathChange = "database/" + filenameChange;
   const newFilenameChange = toAscii(command[3]);
-  const newFilePathChange = "./" + newFilenameChange;
+  const newFilePathChange = "database/" + newFilenameChange;
 
   const ext1 = filePathChange.split(".")[2];
   const ext2 = newFilePathChange.split(".")[2];
@@ -143,16 +158,78 @@ function handleChange(command, socket) {
 }
 
 function handleSummary(command, socket) {
-  console.log("Summary request handled with success");
-  serverResponse("010", socket);
+  const filenameSumm = toAscii(command[1]);
+  const filePathSumm = "database/" + filenameSumm;
+
+  if (fs.existsSync(filePathSumm)) {
+    let summaryFileName = "";
+    if (filenameSumm.length > 23) {
+      summaryFileName =
+        "summary_" + filenameSumm.substring(7, filenameSumm.length);
+    } else {
+      summaryFileName = "summary_" + filenameSumm;
+    }
+
+    const filenameLength = (summaryFileName.length + 1)
+      .toString(2)
+      .padStart(5, "0");
+    const sizeGet = getFileSize(filePathSumm);
+    const sizeBinary = sizeGet.toString(2).padStart(32, "0");
+    const commandGet =
+      "010" +
+      filenameLength +
+      " " +
+      toBinary(summaryFileName) +
+      " " +
+      sizeBinary;
+
+    serverResponse(commandGet, socket);
+    sendSummary(socket, filenameSumm);
+
+    console.log("Summary request handled with success");
+  } else {
+    serverResponse("011", socket);
+  }
 }
 
 function send(conn, filename) {
-  filename = "./" + filename;
+  filename = "database/" + filename;
   const readStream = fs.createReadStream(filename, { highWaterMark: 1024 });
 
   readStream.on("data", (data) => {
+    if (DEBUG_MODE) {
+      console.log("DEBUG DATA SENT TO CLIENT :", data.toString());
+    }
     conn.write(data);
+  });
+
+  readStream.on("end", () => {
+    conn.write("finished");
+  });
+
+  readStream.on("error", (err) => {
+    console.error(`Error reading file: ${err.message}`);
+    //conn.error(); // Close the connection in case of an error
+  });
+}
+
+function sendSummary(conn, filename) {
+  filename = "database/" + filename;
+  console.log(filename);
+  const readStream = fs.createReadStream(filename);
+
+  readStream.on("data", (data) => {
+    if (DEBUG_MODE) {
+      console.log("DEBUG DATA SENT TO CLIENT :", data.toString());
+    }
+    const numbers = data.toString().split(",").map(Number);
+
+    const min = Math.min(...numbers);
+    const max = Math.max(...numbers);
+    const average = numbers.reduce((acc, num) => acc + num, 0) / numbers.length;
+    const numericalData = `The minimum value is : ${min}\nThe maximum value is : ${max}\nThe average value is : ${average}\n`;
+
+    conn.write(numericalData);
   });
 
   readStream.on("end", () => {
@@ -179,6 +256,8 @@ function handleHelp(socket) {
     "110" + (optionsString.length + 1).toString(2).padStart(5, "0");
   console.log("Help request handled with success");
   serverResponse(opcode + " " + helpAnswer, socket);
+
+  return opcode + " " + helpAnswer;
 }
 
 function handleUnknown(socket) {
@@ -187,6 +266,9 @@ function handleUnknown(socket) {
 }
 
 function serverResponse(opcode, socket) {
+  if (DEBUG_MODE) {
+    console.log("DEBUG MODE RESPONSE SENT TO CLIENT :", opcode);
+  }
   socket.write(opcode);
 }
 
@@ -219,3 +301,8 @@ function getFileSize(file) {
     return -1;
   }
 }
+
+module.exports = {
+  serverResponse,
+  handleRequest,
+};

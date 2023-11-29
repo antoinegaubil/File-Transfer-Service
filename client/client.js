@@ -11,39 +11,65 @@ const rl = readline.createInterface({
 
 let client;
 let clientData = "";
-let SERVER_IP = process.argv[2] || "127.0.0.1";
-let SERVER_PORT = process.argv[3] || 3000;
+let SERVER_IP = "";
+let SERVER_PORT = "";
 let DEBUG_MODE = false;
+let TESTING = false;
 let firstByte = true;
 
-if (process.argv[3] === 1) {
+if (process.argv[2] === "1") {
   DEBUG_MODE = true;
 }
 
 // Ask the user to choose between TCP and UDP
-rl.question("Choose protocol (TCP/UDP): ", (protocol) => {
-  if (protocol.toLowerCase() === "tcp") {
-    client = new net.Socket();
-    startClient();
-  } else if (protocol.toLowerCase() === "udp") {
-    client = dgram.createSocket("udp4");
-    startClient();
-  } else {
-    console.log("Invalid choice. Exiting.");
-    rl.close();
-  }
-});
+function askProtocol() {
+  rl.question("Choose protocol (TCP/UDP): ", (protocol) => {
+    if (protocol.toLowerCase() === "tcp") {
+      askTcpDetails();
+    } else if (protocol.toLowerCase() === "udp") {
+      client = dgram.createSocket("udp4");
+      startClient();
+    } else {
+      console.log("Invalid choice.");
+      askProtocol();
+    }
+  });
+}
+
+function askTcpDetails() {
+  rl.question("Provide IP address and Port Number: ", (details) => {
+    const commandArgs = details.trim().split(" ");
+    if (commandArgs[0] && commandArgs[1]) {
+      SERVER_IP = commandArgs[0];
+      SERVER_PORT = commandArgs[1];
+      client = new net.Socket();
+      startClient();
+    } else {
+      console.log("Invalid input. Please provide IP address and Port number.");
+      askTcpDetails();
+    }
+  });
+}
+
+if (require.main === module) {
+  askProtocol();
+}
 
 function startClient() {
   rl.on("line", (line) => {
     const commandArgs = line.trim().split(" ");
     clientData = commandArgs;
-    formatRequest(commandArgs[0], commandArgs[1], commandArgs[2], client);
+    formatRequest(
+      commandArgs[0],
+      commandArgs[1],
+      commandArgs[2],
+      client,
+      TESTING
+    );
   });
 
-  // Event listener for user closing the interface
   rl.on("close", () => {
-    console.log("Exiting...");
+    console.log("Session has been terminated. Exiting...");
     process.exit(0);
   });
 
@@ -54,6 +80,9 @@ function startClient() {
 
   client.on("data", (data) => {
     if (firstByte) {
+      if (DEBUG_MODE) {
+        console.log("DEBUG MODE RESPONSE FROM SERVER :", data.toString());
+      }
       handleServerResponse(data);
     }
   });
@@ -65,11 +94,15 @@ function startClient() {
 }
 
 function sendCommand(actionBinary) {
+  if (DEBUG_MODE) {
+    console.log("DEBUG MODE COMMAND SENT TO SERVER :", actionBinary);
+  }
   client.write(actionBinary);
 }
 
-function formatRequest(action, file, newFileName, client) {
-  let byte0, byte1, byte2, byte3;
+function formatRequest(action, file, newFileName, client, isTesting) {
+  let byte0, byte1, byte2, byte3, command;
+  TESTING = isTesting;
   switch (action) {
     case "put":
       if (file === undefined) {
@@ -98,9 +131,12 @@ function formatRequest(action, file, newFileName, client) {
         .toString(2)
         .padStart(32, "0");
 
-      const commandPut = byte0 + " " + byte1 + " " + byte2;
-      sendCommand(commandPut);
-      send(client, file);
+      command = byte0 + " " + byte1 + " " + byte2;
+      if (!TESTING) {
+        sendCommand(command);
+        send(client, file);
+      }
+
       break;
 
     case "get":
@@ -120,8 +156,10 @@ function formatRequest(action, file, newFileName, client) {
         String(((file.length + 1) & 0b11111).toString(2).padStart(5, "0"));
       byte1 = toBinary(file);
 
-      const commandGet = byte0 + " " + byte1;
-      sendCommand(commandGet);
+      command = byte0 + " " + byte1;
+      if (!TESTING) {
+        sendCommand(command);
+      }
       break;
 
     case "change":
@@ -148,8 +186,10 @@ function formatRequest(action, file, newFileName, client) {
 
       byte3 = toBinary(newFileName);
 
-      const commandChange = byte0 + " " + byte1 + " " + byte2 + " " + byte3;
-      sendCommand(commandChange);
+      command = byte0 + " " + byte1 + " " + byte2 + " " + byte3;
+      if (!TESTING) {
+        sendCommand(command);
+      }
       break;
 
     case "summary":
@@ -168,23 +208,33 @@ function formatRequest(action, file, newFileName, client) {
 
       byte1 = toBinary(file);
 
-      const commandSummary = byte0 + " " + byte1;
-      sendCommand(commandSummary);
+      command = byte0 + " " + byte1;
+      if (!TESTING) {
+        sendCommand(command);
+      }
 
       break;
 
     case "help":
       byte0 = "10000000";
-      const commandHelp = byte0;
-      sendCommand(commandHelp);
+      command = byte0;
+      if (!TESTING) {
+        sendCommand(command);
+      }
       break;
     case "bye":
       client.end();
       break;
     default:
       console.log('\nInvalid command. Use "help" for help.\n');
-      rl.prompt();
+      if (!TESTING) {
+        rl.prompt();
+      }
   }
+
+  console.log("this is the command!");
+
+  return command;
 }
 
 function handleServerResponse(data) {
@@ -193,7 +243,7 @@ function handleServerResponse(data) {
   const opcode = command[0].substring(0, 3);
 
   if (opcode === "000" && clientData[0] === "put") {
-    console.log(clientData[1], "downloaded successfully");
+    console.log(clientData[1], "has been uploaded successfully");
   } else if (opcode === "000" && clientData[2]) {
     console.log(
       "file",
@@ -205,7 +255,8 @@ function handleServerResponse(data) {
     firstByte = false;
     getRequest(command, client);
   } else if (opcode === "010") {
-    console.log("summary");
+    firstByte = false;
+    summaryRequest(command, client);
   } else if (opcode === "011") {
     console.log("Error : file", clientData[1], "not found in the database");
   } else if (opcode === "100") {
@@ -222,7 +273,7 @@ function handleServerResponse(data) {
     console.log(toAscii(command[1]));
   }
 
-  if (opcode !== "001") {
+  if (opcode !== "001" && opcode !== "010") {
     rl.prompt();
   }
 }
@@ -251,7 +302,13 @@ function handleData(data, writeStream) {
 }
 
 function getFileSize(file) {
-  let filePath = "./" + file;
+  let filePath;
+  if (!TESTING) {
+    filePath = "files/" + file;
+  } else {
+    filePath = "../client/files/" + file;
+  }
+
   try {
     const stats = fs.statSync(filePath);
     const fileSizeInBytes = stats.size;
@@ -264,10 +321,17 @@ function getFileSize(file) {
 }
 
 function send(conn, filename) {
-  filename = "./" + filename;
+  if (!TESTING) {
+    filename = "files/" + filename;
+  } else {
+    filename = "../client/files/" + filename;
+  }
   const readStream = fs.createReadStream(filename, { highWaterMark: 1024 });
 
   readStream.on("data", (data) => {
+    if (DEBUG_MODE) {
+      console.log("DEBUG MODE DATA SENT TO SERVER :", data.toString());
+    }
     conn.write(data);
   });
 
@@ -277,20 +341,26 @@ function send(conn, filename) {
 
   readStream.on("error", (err) => {
     console.error(`Error reading file: ${err.message}`);
-    //conn.error(); // Close the connection in case of an error
   });
 }
 
 function getRequest(command, socket) {
   const filename = toAscii(command[1]);
-  const filePath = "./" + filename;
+  let filePath;
+  if (!TESTING) {
+    filePath = "files/" + filename;
+  } else {
+    filePath = "../client/files/" + filename;
+  }
 
   const writeStream = fs.createWriteStream(filePath);
   let isWritting = false;
 
   function onData(data) {
     isWritting = true;
-
+    if (DEBUG_MODE) {
+      console.log("DEBUG MODE DATA RECEIVED FROM SERVER : ", data.toString());
+    }
     if (data.toString().includes("finished")) {
       const finishedIndex = data.toString().indexOf("finished");
       const remainingData = data.toString().slice(0, finishedIndex);
@@ -299,7 +369,7 @@ function getRequest(command, socket) {
       writeStream.end();
       isWritting = false;
 
-      console.log(`File "${filePath}" stored successfully.`);
+      console.log(`"${filename}" has been downloaded successfully.`);
 
       firstByte = true;
 
@@ -320,7 +390,60 @@ function getRequest(command, socket) {
       console.error(`Error reading the file!`);
       writeStream.end();
     }
-
-    // Handle the error
   });
 }
+
+function summaryRequest(command, socket) {
+  const filename = toAscii(command[1]);
+
+  let filePath;
+  if (!TESTING) {
+    filePath = "files/" + filename;
+  } else {
+    filePath = "../client/files/" + filename;
+  }
+
+  const writeStream = fs.createWriteStream(filePath);
+  let isWritting = false;
+
+  function onData(data) {
+    isWritting = true;
+    if (DEBUG_MODE) {
+      console.log("DEBUG MODE DATA RECEIVED FROM SERVER : ", data.toString());
+    }
+    if (data.toString().includes("finished")) {
+      const finishedIndex = data.toString().indexOf("finished");
+      const remainingData = data.toString().slice(0, finishedIndex);
+
+      writeStream.write(remainingData);
+      writeStream.end();
+      isWritting = false;
+
+      console.log(`"${filename}" has been downloaded successfully.`);
+
+      firstByte = true;
+
+      rl.prompt();
+
+      socket.off("data", onData);
+    } else {
+      handleData(data, writeStream, socket);
+    }
+  }
+
+  socket.on("data", onData);
+
+  socket.on("end", () => {});
+
+  socket.on("error", () => {
+    if (isWritting) {
+      console.error(`Error reading the file!`);
+      writeStream.end();
+    }
+  });
+}
+
+module.exports = {
+  formatRequest,
+  sendCommand,
+};
