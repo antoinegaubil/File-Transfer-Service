@@ -1,0 +1,1479 @@
+Lords Mobile --> No apk file only xapk not openable
+Mistplay --> not apk file
+
+The rest is under here :
+
+
+../../../apk/duolingo.apk
+
+
+[
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "9/18056",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "315",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/509",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "Facebook",
+        "Match Ratio": "6/7271",
+        "Package": "Lcom/facebook",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": "4795",
+        "Standard Package": "Lcom/facebook",
+        "Type": "Social Network",
+        "Website": "https://developers.facebook.com"
+    },
+    {
+        "Library": "Github",
+        "Match Ratio": "10/12",
+        "Package": "Lcom/github",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularit        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "34/26692",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "34",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/pay": "23",
+        "Standard Package": "Lcom/github",
+        "Type": "Development Aid",
+        "Website": "https://github.com/"
+    }
+]
+
+
+../../../apk/Herowars.apk
+
+
+[
+    {
+        "Library": "Android Support v4",
+        "Match Ratio": "39/39",
+        "Package": "Landroidx/cursoradapter",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": "14621",
+        "Standard Package": "Landroid/support/v4",
+        "Type": "Development Aid",
+        "Website": "http://developer.android.com/reference/android/support/v4/app/package-summary.html"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/20",
+        "Package": "Lcom/bytedance/sdk/openadsdk/k",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+ckage-summary"
+    },
+    {
+        "Library": "ZXing ('Zebra Crossing')",
+        "Match Ratio": "169/760",
+        "Package": "Lcom/google/zxing",
+        "Permission": [],
+        "Popularity": "50038",
+        "Standard Package": "Lcom/google/zxing",
+        "Type": "Development Aid",
+        "Website": "https://github.com/zxing/zxing"
+    },
+    {
+        "Library": "Google Core Libraries for Java 6+",
+        "Match Ratio": "61/5847",
+        "Package": "Lcom/google/common",
+        "Permission": [],
+        "Popularity": "6918",
+        "Standard Package": "Lcom/google/common",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/guava"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/527",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "2/19",
+        "Package": "Lcom/unity3d/scar/adapter",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": "12154",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Bolts Base Library",
+        "Match Ratio": "341/341",
+        "Package": "Lbolts",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": 662,
+        "Standard Package": "Lbolts",
+        "Type": "Development Aid",
+        "Website": "https://github.com/BoltsFramework/Bolts-Android"
+    },
+    {
+        "Library": "Fmod",../../../apk/playojo.apk
+
+
+[]
+
+
+../../../apk/Falcon.apk
+
+
+[
+    {
+        "Library": "Android Support v4",
+        "Match Ratio": "39/39",
+        "Package": "Landroidx/cursoradapter",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": "14621",
+        "Standard Package": "Landroid/support/v4",
+        "Type": "Development Aid",
+        "Website": "http://developer.android.com/reference/android/support/v4/app/package-summary.html"
+    },
+    {
+        "Library": "Bolts Base Library",
+        "Match Ratio": "341/341",
+        "Package": "Lbolts",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": 662,
+        "Standard Package": "Lbolts",
+        "Type": "Development Aid",
+        "Website": "https://github.com/BoltsFramework/Bolts-Android"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/20",
+        "Package": "Lcom/bytedance/sdk/openadsdk/n",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "19/22920",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+      
+        "Match Ratio": "20/20",
+        "Package": "Lorg/fmod",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 131684,
+        "Standard Package": "Lorg/fmod",
+        "Type": "Game Engine",
+        "Website": "https://www.fmod.org/"
+    },
+    {
+        "Library": "SLF4J",
+        "Match Ratio": "1/64",
+        "Package": "Lorg/slf4j",
+        "Permission": [],
+        "Popularity": "1435",
+        "Standard Package": "Lorg/slf4j",
+        "Type": "Development Aid",
+        "Website": "http://www.slf4j.org/"
+    },
+    {
+        "Library": "Unknown",
+        "Package": "Lorg/greenrobot/greendao/query",
+        "Popularity": 1309,
+        "Standard Package": "Lorg/greenrobot/greendao/query",
+        "Weight": 80
+    },
+    {
+        "Library": "Unknown",
+        "Package": "Lorg/greenrobot/greendao/test",
+        "Popularity": 1265,
+        "Standard Package": "Lorg/greenrobot/greendao/test",
+        "Weight": 78
+    }
+]
+
+
+      "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "83199",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Firebase",
+        "Match Ratio": "2/1666",
+        "Package": "Lcom/google/firebase",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.WRITE_SECURE_SETTINGS"
+        ],
+        "Popularity": "30719",
+        "Standard Package": "Lcom/google/firebase",
+        "Type": "Development Aid",
+        "Website": "http://firebase.com"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/520",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "ZXing ('Zebra Crossing')",
+        "Match Ratio": "169/760",
+        "Package": "Lcom/google/zxing",
+        "Permission": [],
+        "Popularity": "50038",
+        "Standard Package": "Lcom/google/zxing",
+        "Type": "Development Aid",
+        "Website": "https://github.com/zxing/zxing"
+    },
+    {
+        "Library": "OKHttp3.0",
+        "Match Ratio": "9/1024",
+        "Package": "Lokhttp3",
+        "Permission": [],
+        "Popularity": "413",
+        "Standard Package": "Lokhttp3",
+        "Type": "Development Aid",
+        "Website": "https://github.com/square/okhttp"
+    },
+    {
+        "Library": "Fmod",
+        "Match Ratio": "20/20",
+        "Package": "Lorg/fmod",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 131684,
+        "Standard Package": "Lorg/fmod",
+        "Type": "Game Engine",
+        "Website": "https://www.fmod.org/"
+    }
+]
+
+
+../../../apk/1945.apk
+
+
+[
+    {
+        "Library": "Android Support v4",
+        "Match Ratio": "39/39",
+        "Package": "Landroidx/cursoradapter",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": "14621",
+        "Standard Package": "Landroid/support/v4",
+        "Type": "Development Aid",
+        "Website": "http://developer.android.com/reference/android/support/v4/app/package-summary.html"
+    },
+    {
+        "Library": "Bolts Base Library",
+        "Match Ratio": "341/341",
+        "Package": "Lbolts",
+        "Permission": [
+                 "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "83199",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Firebase",
+        "Match Ratio": "2/2643",
+        "Package": "Lcom/google/firebase",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.WRITE_SECURE_SETTINGS"
+        ],
+   "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": 662,
+        "Standard Package": "Lbolts",
+        "Type": "Development Aid",
+        "Website": "https://github.com/BoltsFramework/Bolts-Android"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/20",
+        "Package": "Lcom/bytedance/sdk/openadsdk/n",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "47/24784",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "Popularity": "30719",
+        "Standard Package": "Lcom/google/firebase",
+        "Type": "Development Aid",
+        "Website": "http://firebase.com"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/520",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "ZXing ('Zebra Crossing')",
+        "Match Ratio": "169/760",
+        "Package": "Lcom/google/zxing",
+        "Permission": [],
+        "Popularity": "50038",
+        "Standard Package": "Lcom/google/zxing",
+        "Type": "Development Aid",
+        "Website": "https://github.com/zxing/zxing"
+    },
+    {
+        "Library": "OKHttp3.0",
+        "Match Ratio": "9/1024",
+        "Package": "Lokhttp3",
+        "Permission": [],
+        "Popularity": "413",
+        "Standard Package": "Lokhttp3",
+        "Type": "Development Aid",
+        "Website": "https://github.com/square/okhttp"
+    },
+    {
+        "Library": "Fmod",
+        "Match Ratio": "20/20",
+        "Package": "Lorg/fmod",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 131684,
+        "Standard Package": "Lorg/fmod",
+        "Type": "Game Engine",
+        "Website": "https://www.fmod.org/"
+    }
+]
+
+
+../../../apk/galaxiga.apk
+
+
+[
+    {
+        "Library": "Android Support v4",
+        "Match Ratio": "39/39",
+        "Package": "Landroidx/cursoradapter",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": "14621",
+        "Standard Package": "Landroid/support/v4",
+        "Type": "Development Aid",
+        "Website": "http://developer.android.com/reference/android/support/v4/app/package-summary.html"
+    },
+    {
+        "Library": "Bolts Base Library",
+        "Match Ratio": "341/341",
+        "Package": "Lbolts",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": 662,
+        "Standard Package": "Lbolts",
+        "Type": "Development Aid",
+        "Website": "https://github.com/BoltsFramework/Bolts-Android"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/20",
+        "Package": "Lcom/bytedance/sdk/openadsdk/k",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "47/24779",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "83199",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Firebase",
+        "Match Ratio": "2/2637",
+        "Package": "Lcom/google/firebase",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.WRITE_SECURE_SETTINGS"
+        ],
+        "Popularity": "30719",
+        "Standard Package": "Lcom/google/firebase",
+        "Type": "Development Aid",
+        "Website": "http://firebase.com"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/520",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "ZXing ('Zebra Crossing')",
+        "Match Ratio": "169/760",
+        "Package": "Lcom/google/zxing",
+        "Permission": [],
+        "Popularity": "50038",
+        "Standard Package": "Lcom/google/zxing",
+        "Type": "Development Aid",
+        "Website": "https://github.com/zxing/zxing"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "2/19",
+        "Package": "Lcom/unity3d/scar/adapter",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": "12154",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Fmod",
+        "Match Ratio": "20/20",
+        "Package": "Lorg/fmod",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 131684,
+        "Standard Package": "Lorg/fmod",
+        "Type": "Game Engine",
+        "Website": "https://www.fmod.org/"
+    }
+]
+
+
+../../../apk/lumber.apk
+
+
+[
+    {
+        "Library": "Multidex",
+        "Match Ratio": "163/163",
+        "Package": "Landroid/support/multidex",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 135059,
+        "Standard Package": "Landroid/support/multidex",
+        "Type": "Development Aid",
+        "Website": "https://developer.android.com/studio/build/multidex.html"
+    },
+    {
+        "Library": "Android Support v4",
+        "Match Ratio": "39/39",
+        "Package": "Landroidx/cursoradapter",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": "14621",
+        "Standard Package": "Landroid/support/v4",
+        "Type": "Development Aid",
+        "Website": "http://developer.android.com/reference/android/support/v4/app/package-summary.html"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/15",
+        "Package": "Lcom/bytedance/sdk/openadsdk/i",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "19/25543",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "83199",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/a "Package": "Lcom/google/zxing",
+        "Permission": [],
+        "Popularity": "95",
+        "Standard Package": "Lcom/google/zxing",
+        "Type": "Development Aid",
+        "Website": "https://github.com/zxing/zxing"
+    },
+    {
+        "Library": "ZXing ('Zebra Crossing')",
+        "Match Ratio": "1/7",
+        "Package": "Lcom/unity3d/services/ads/gmascar",
+        "Permission": [],
+        "Popularity": "49578",
+        "Standard Package": "Lcom/google/zxing",
+        "Type": "Development Aid",
+        "Website": "https://github.com/zxing/zxing"
+    },
+    {
+        "Library": "OKHttp3.0",
+        "Match Ratio": "9/1024",
+        "Package": "Lokhttp3",
+        "Permission": [],
+        "Popularity": "413",
+        "Standard Package": "Lokhttp3",
+        "Type": "Development Aid",
+        "Website": "https://github.com/square/okhttp"
+    },
+    {
+        "Library": "Fmod",
+        "Match Ratio": "20/20",
+        "Package": "Lorg/fmod",
+        "Permission": [
+         ndroid/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Firebase",
+        "Match Ratio": "2/2834",
+        "Package": "Lcom/google/firebase",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.WRITE_SECURE_SETTINGS"
+        ],
+        "Popularity": "30719",
+        "Standard Package": "Lcom/google/firebase",
+        "Type": "Development Aid",
+        "Website": "http://firebase.com"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/520",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "ZXing ('Zebra Crossing')",
+        "Match Ratio": "169/760",
+          "android.permission.DUMP"
+        ],
+        "Popularity": 131684,
+        "Standard Package": "Lorg/fmod",
+        "Type": "Game Engine",
+        "Website": "https://www.fmod.org/"
+    }
+]
+
+
+../../../apk/mob.apk
+
+
+[
+    {
+        "Library": "Android Support v4",
+        "Match Ratio": "39/39",
+        "Package": "Landroidx/cursoradapter",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": "14621",
+        "Standard Package": "Landroid/support/v4",
+        "Type": "Development Aid",
+        "Website": "http://developer.android.com/reference/android/support/v4/app/package-summary.html"
+    },
+    {
+        "Library": "adjust",
+        "Match Ratio": "67/893",
+        "Package": "Lcom/adjust/sdk",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": "71",
+        "Standard Package": "Lcom/adjust/sdk",
+        "Type": "Mobile Analytics",
+        "Website": "https://www.adjust.com/"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/20",
+        "Package": "Lcom/bytedance/sdk/openadsdk/k",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "41/27145",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "34",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Google Core Libraries for Java 6+",
+        "Match Ratio": "61/5847",
+        "Package": "Lcom/google/common",
+        "Permission": [],
+        "Popularity": "6918",
+        "Standard Package": "Lcom/google/common",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/guava"
+    },
+    {
+        "Library": "Firebase",
+        "Match Ratio": "2/1961",
+        "Package": "Lcom/google/firebase",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.WRITE_SECURE_SETTINGS"
+        ],
+        "Popularity": "30719",
+        "Standard Package": "Lcom/google/firebase",
+        "Type": "Development Aid",
+        "Website": "http://firebase.com"
+    },
+    {
+        "Library": "json smart",
+        "Match Ratio": "28/190",
+        "Package": "Lcom/nimbusds/jose/shaded/json",
+        "Permission": [],
+        "Popularity": "16",
+        "Standard Package": "Lnet/minidev/json",
+        "Type": "Development Aid",
+        "Website": "https://github.com/netplex/json-smart-v2"
+    },
+    {
+        "Library": "Bouncy Castle",
+        "Match Ratio": "512/12030",
+        "Package": "Lorg/bouncycastle",
+        "Permission": [],
+        "Popularity": "982",
+        "Standard Package": "Lorg/bouncycastle",
+        "Type": "Development Aid",
+        "Website": "http://www.bouncycastle.org/java.html"
+    },
+    {
+        "Library": "Apache Common",
+        "Match Ratio": "182/1165",
+        "Package": "Lorg/apache/commons",
+        "Permission": [],
+        "Popularity": "6035",
+        "Standard Package": "Lorg/apache/commons",
+        "Type": "Development Aid",
+        "Website": "https://commons.apache.org/"
+    },
+    {
+        "Library": "Fmod",
+        "Match Ratio": "20/20",
+        "Package": "Lorg/fmod",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 131684,
+        "Standard Package": "Lorg/fmod",
+        "Type": "Game Engine",
+        "Website": "https://www.fmod.org/"
+    },
+    {
+        "Library": "SLF4J",
+        "Match Ratio": "1/64",
+        "Package": "Lorg/slf4j",
+        "Permission": [],
+        "Popularity": "1435",
+        "Standard Package": "Lorg/slf4j",
+        "Type": "Development Aid",
+        "Website": "http://www.slf4j.org/"
+    },
+    {
+        "Library": "jUnit Java Unit Test",
+        "Match Ratio": "4/16",
+        "Package": "Lio/embrace/android/embracesdk/okhttp3",
+        "Permission": [],
+        "Popularity": "2862",
+        "Standard Package": "Lorg/junit",
+        "Type": "Development Aid",
+        "Website": "http://junit.org/"
+    }
+]
+
+
+../../../apk/bricks.apk
+
+
+[
+    {
+        "Library": "Multidex",
+        "Match Ratio": "163/163",
+        "Package": "Landroid/support/multidex",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 135059,
+        "Standard Package": "Landroid/support/multidex",
+        "Type": "Development Aid",
+        "Website": "https://developer.android.com/studio/build/multidex.html"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/20",
+        "Package": "Lcom/bytedance/sdk/openadsdk/n",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "32/26718",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "34",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Google Core Libraries for Java 6+",
+        "Match Ratio": "18/6235",
+        "Package": "Lcom/google/common",
+        "Permission": [],
+        "Popularity": "6918",
+        "Standard Package": "Lcom/google/common",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/guava"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/521",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "1/1",
+        "Package": "Lcom/helpshift/exceptions",
+        "Permission": [],
+        "Popularity": "206002",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "getui",
+        "Match Ratio": "39/93",
+        "Package": "Lcom/getkeepsafe",
+        "Permission": [],
+        "Popularity": "12841",
+        "Standard Package": "Lcom/igexin",
+        "Type": "Development Aid",
+        "Website": "http://www.getui.com/cn/index.html"
+    },
+    {
+        "Library": "HttpClient Android repackage buildscript",
+        "Match Ratio": "506/2508",
+        "Package": "Lcz/msebera/android/httpclient",
+        "Permission": [],
+        "Popularity": "407",
+        "Standard Package": "Lcz/msebera/android/httpclient",
+        "Type": "Development Aid",
+        "Website": "https://github.com/smarek/httpclient-android"
+    },
+    {
+        "Library": "Kxml2",
+        "Match Ratio": "170/236",
+        "Package": "Lorg/kxml2",
+        "Permission": [],
+        "Popularity": "44499",
+        "Standard Package": "Lorg/kxml2",
+        "Type": "Development Aid",
+        "Website": "http://www.kxml.org/"
+    },
+    {
+        "Library": "ksoap2",
+        "Match Ratio": "23/229",
+        "Package": "Lorg/ksoap2",
+        "Permission": [],
+        "Popularity": "4696",
+        "Standard Package": "Lorg/ksoap2",
+        "Type": "Development Aid",
+        "Website": "http://ksoap2.sourceforge.net/"
+    },
+    {
+        "Library": "KObjects",
+        "Match Ratio": "126/155",
+        "Package": "Lorg/kobjects",
+        "Permission": [],
+        "Popularity": "45265",
+        "Standard Package": "Lorg/kobjects",
+        "Type": "Development Aid",
+        "Website": "http://kobjects.org"
+    },
+    {
+        "Library": "XML Pull",
+        "Match Ratio": "40/40",
+        "Package": "Lorg/xmlpull",
+        "Permission": [],
+        "Popularity": 5269,
+        "Standard Package": "Lorg/xmlpull",
+        "Type": "Development Aid",
+        "Website": "http://www.xmlpull.org/"
+    },
+    {
+        "Library": "Unknown",
+        "Package": "Lrx/exceptions",
+        "Popularity": 4018,
+        "Standard Package": "Lrx/exceptions",
+        "Weight": 59
+    }
+]
+
+
+../../../apk/woodoku.apk
+
+
+[
+    {
+        "Library": "Multidex",
+        "Match Ratio": "163/163",
+        "Package": "Landroid/support/multidex",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 135059,
+        "Standard Package": "Landroid/support/multidex",
+        "Type": "Development Aid",
+        "Website": "https://developer.android.com/studio/build/multidex.html"
+    },
+    {
+        "Library": "Android Support v4",
+        "Match Ratio": "39/39",
+        "Package": "Landroidx/cursoradapter",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": "14621",
+        "Standard Package": "Landroid/support/v4",
+        "Type": "Development Aid",
+        "Website": "http://developer.android.com/reference/android/support/v4/app/package-summary.html"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/15",
+        "Package": "Lcom/bytedance/sdk/openadsdk/k",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "21/24271",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "83199",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Google Core Libraries for Java 6+",
+        "Match Ratio": "61/5849",
+        "Package": "Lcom/google/common",
+        "Permission": [],
+        "Popularity": "6918",
+        "Standard Package": "Lcom/google/common",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/guava"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/517",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "SLF4J",
+        "Match Ratio": "1/64",
+        "Package": "Lorg/slf4j",
+        "Permission": [],
+        "Popularity": "1435",
+        "Standard Package": "Lorg/slf4j",
+        "Type": "Development Aid",
+        "Website": "http://www.slf4j.org/"
+    },
+    {
+        "Library": "Fmod",
+        "Match Ratio": "20/20",
+        "Package": "Lorg/fmod",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 131684,
+        "Standard Package": "Lorg/fmod",
+        "Type": "Game Engine",
+        "Website": "https://www.fmod.org/"
+    }
+]
+
+
+../../../apk/wordscapes.apk
+
+
+[
+    {
+        "Library": "Multidex",
+        "Match Ratio": "163/163",
+        "Package": "Landroid/support/multidex",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 135059,
+        "Standard Package": "Landroid/support/multidex",
+        "Type": "Development Aid",
+        "Website": "https://developer.android.com/studio/build/multidex.html"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/20",
+        "Package": "Lcom/bytedance/sdk/openadsdk/n",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "32/26134",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "34",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Google Core Libraries for Java 6+",
+        "Match Ratio": "18/6222",
+        "Package": "Lcom/google/common",
+        "Permission": [],
+        "Popularity": "6918",
+        "Standard Package": "Lcom/google/common",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/guava"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/517",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "ZXing ('Zebra Crossing')",
+        "Match Ratio": "169/766",
+        "Package": "Lcom/google/zxing",
+        "Permission": [],
+        "Popularity": "60331",
+        "Standard Package": "Lcom/google/zxing",
+        "Type": "Development Aid",
+        "Website": "https://github.com/zxing/zxing"
+    },
+    {
+        "Library": "Messagepack",
+        "Match Ratio": "153/293",
+        "Package": "Lorg/msgpack",
+        "Permission": [],
+        "Popularity": "26",
+        "Standard Package": "Lorg/msgpack",
+        "Type": "Utility",
+        "Website": "http://msgpack.org"
+    },
+    {
+        "Library": "SLF4J",
+        "Match Ratio": "1/64",
+        "Package": "Lorg/slf4j",
+        "Permission": [],
+        "Popularity": "1435",
+        "Standard Package": "Lorg/slf4j",
+        "Type": "Development Aid",
+        "Website": "http://www.slf4j.org/"
+    },
+    {
+        "Library": "JavaX Annotation API",
+        "Match Ratio": "4/4",
+        "Package": "Ljavax/annotation",
+        "Permission": [],
+        "Popularity": 25531,
+        "Standard Package": "Ljavax/annotation",
+        "Type": "Utility",
+        "Website": ""
+    }
+]
+
+
+../../../apk/crowd.apk
+
+
+[
+    {
+        "Library": "Multidex",
+        "Match Ratio": "163/163",
+        "Package": "Landroid/support/multidex",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 135059,
+        "Standard Package": "Landroid/support/multidex",
+        "Type": "Development Aid",
+        "Website": "https://developer.android.com/studio/build/multidex.html"
+    },
+    {
+        "Library": "Android Support v4",
+        "Match Ratio": "39/39",
+        "Package": "Landroidx/cursoradapter",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET"
+        ],
+        "Popularity": "14621",
+        "Standard Package": "Landroid/support/v4",
+        "Type": "Development Aid",
+        "Website": "http://developer.android.com/reference/android/support/v4/app/package-summary.html"
+    },
+    {
+        "Library": "Baidu Mobile Ads",
+        "Match Ratio": "2/20",
+        "Package": "Lcom/bytedance/sdk/openadsdk/k",
+        "Permission": [],
+        "Popularity": "10501",
+        "Standard Package": "Lcom/baidu/mobads",
+        "Type": "Advertisement",
+        "Website": "https://developer.baidu.com/"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "21/24079",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "83199",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Firebase",
+        "Match Ratio": "2/2368",
+        "Package": "Lcom/google/firebase",
+        "Permission": [
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.WRITE_SECURE_SETTINGS"
+        ],
+        "Popularity": "30719",
+        "Standard Package": "Lcom/google/firebase",
+        "Type": "Development Aid",
+        "Website": "http://firebase.com"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/520",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "ZXing ('Zebra Crossing')",
+        "Match Ratio": "169/760",
+        "Package": "Lcom/google/zxing",
+        "Permission": [],
+        "Popularity": "95",
+        "Standard Package": "Lcom/google/zxing",
+        "Type": "Development Aid",
+        "Website": "https://github.com/zxing/zxing"
+    },
+    {
+        "Library": "Fmod",
+        "Match Ratio": "20/20",
+        "Package": "Lorg/fmod",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 131684,
+        "Standard Package": "Lorg/fmod",
+        "Type": "Game Engine",
+        "Website": "https://www.fmod.org/"
+    },
+    {
+        "Library": "OKHttp3.0",
+        "Match Ratio": "9/1024",
+        "Package": "Lokhttp3",
+        "Permission": [],
+        "Popularity": "413",
+        "Standard Package": "Lokhttp3",
+        "Type": "Development Aid",
+        "Website": "https://github.com/square/okhttp"
+    }
+]
+
+
+../../../apk/solitaire.apk
+
+
+[
+    {
+        "Library": "Multidex",
+        "Match Ratio": "163/163",
+        "Package": "Landroid/support/multidex",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 135059,
+        "Standard Package": "Landroid/support/multidex",
+        "Type": "Development Aid",
+        "Website": "https://developer.android.com/studio/build/multidex.html"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "21/24859",
+        "Package": "Lcom/google/android/gms",
+        "Permission": [
+            "android.permission.BACKUP",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN",
+            "android.permission.DUMP",
+            "android.permission.INTERACT_ACROSS_USERS",
+            "android.permission.INTERACT_ACROSS_USERS_FULL",
+            "android.permission.INTERNET",
+            "android.permission.MANAGE_NETWORK_POLICY",
+            "android.permission.WAKE_LOCK",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.WRITE_SMS"
+        ],
+        "Popularity": "83199",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "Google Gson",
+        "Match Ratio": "7/452",
+        "Package": "Lcom/google/gson",
+        "Permission": [],
+        "Popularity": "427890",
+        "Standard Package": "Lcom/google/gson",
+        "Type": "Development Aid",
+        "Website": "https://github.com/google/gson"
+    },
+    {
+        "Library": "ZXing ('Zebra Crossing')",
+        "Match Ratio": "37/117",
+        "Package": "Ld/b/c",
+        "Permission": [],
+        "Popularity": "120476",
+        "Standard Package": "Lcom/google/zxing",
+        "Type": "Development Aid",
+        "Website": "https://github.com/zxing/zxing"
+    },
+    {
+        "Library": "Google Mobile Services",
+        "Match Ratio": "2/15",
+        "Package": "Ld/c/a/a",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": "12154",
+        "Standard Package": "Lcom/google/android/gms",
+        "Type": "Development Aid",
+        "Website": "https://developers.google.com/android/reference/com/google/android/gms/package-summary"
+    },
+    {
+        "Library": "OKHttp3.0",
+        "Match Ratio": "9/1017",
+        "Package": "Lokhttp3",
+        "Permission": [],
+        "Popularity": "413",
+        "Standard Package": "Lokhttp3",
+        "Type": "Development Aid",
+        "Website": "https://github.com/square/okhttp"
+    },
+    {
+        "Library": "Fmod",
+        "Match Ratio": "20/20",
+        "Package": "Lorg/fmod",
+        "Permission": [
+            "android.permission.DUMP"
+        ],
+        "Popularity": 131684,
+        "Standard Package": "Lorg/fmod",
+        "Type": "Game Engine",
+        "Website": "https://www.fmod.org/"
+    },
+    {
+        "Library": "Unknown",
+        "Package": "Lnet/aihelp/core/net/mqtt/hawtbuf",
+        "Popularity": 635,
+        "Standard Package": "Lorgxn/fusesource/hawtbuf",
+        "Weight": 80
+    }
+]

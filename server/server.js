@@ -1,9 +1,13 @@
 const net = require("net");
 const fs = require("fs");
+const UDP = require("dgram");
 
 const PORT = process.argv[2] || 3000;
 let DEBUG_MODE = false;
 let firstByte = true;
+let connection = "";
+let IP = "";
+let sendPort = ";";
 
 if (process.argv[3] === "1") {
   DEBUG_MODE = true;
@@ -11,7 +15,22 @@ if (process.argv[3] === "1") {
 
 const server = net.createServer();
 
+const serverUDP = UDP.createSocket("udp4");
+
+serverUDP.on("message", (message, rinfo) => {
+  IP = rinfo.address;
+  sendPort = rinfo.port;
+  connection = "udp";
+
+  if (firstByte) {
+    handleRequest(message, serverUDP);
+  }
+});
+
+serverUDP.bind(PORT);
+
 server.on("connection", (socket) => {
+  connection = "tcp";
   console.log(`\nClient connected wiht port number ${PORT}\n`);
 
   socket.on("data", (data) => {
@@ -40,11 +59,8 @@ server.listen(PORT, () => {
 function handleRequest(data, socket) {
   try {
     let response = "";
-
     const command = data.toString().trim().split(" ");
     const opcode = command[0].substring(0, 3);
-    console.log("sinhandleR", opcode);
-
     if (opcode === "000") {
       firstByte = false;
       handlePut(command, socket);
@@ -89,25 +105,40 @@ function handlePut(command, socket) {
       console.log("Put request handled with success");
       serverResponse("000", socket);
 
-      firstByte = true;
+      if (connection == "tcp") {
+        socket.off("data", onData);
+      }
+      if (connection == "udp") {
+        serverUDP.off("message", onData);
+      }
 
-      // Remove the "data" event listener
-      socket.off("data", onData);
+      firstByte = true;
     } else {
       handleData(data, writeStream, socket);
     }
   }
 
-  socket.on("data", onData);
+  if (connection == "tcp") {
+    socket.on("data", onData);
 
-  socket.on("end", () => {});
+    socket.on("end", () => {});
 
-  socket.on("error", (err) => {
-    if (isWritting) {
-      console.error(`Error reading the file!`);
-      writeStream.end();
-    }
-  });
+    socket.on("error", (err) => {
+      if (isWritting) {
+        console.error(`Error reading the file!`);
+        writeStream.end();
+      }
+    });
+  }
+  if (connection == "udp") {
+    serverUDP.on("message", onData);
+    serverUDP.on("error", (err) => {
+      if (isWritting) {
+        console.error(`Error reading the file!`);
+        writeStream.end();
+      }
+    });
+  }
 }
 
 function handleGet(command, socket) {
@@ -194,17 +225,33 @@ function handleSummary(command, socket) {
 
 function send(conn, filename) {
   filename = "database/" + filename;
-  const readStream = fs.createReadStream(filename, { highWaterMark: 1024 });
+  let readStream;
+  if (connection == "tcp") {
+    readStream = fs.createReadStream(filename, { highWaterMark: 1024 });
+  }
+  if (connection == "udp") {
+    readStream = fs.createReadStream(filename);
+  }
 
   readStream.on("data", (data) => {
     if (DEBUG_MODE) {
       console.log("DEBUG DATA SENT TO CLIENT :", data.toString());
     }
-    conn.write(data);
+    if (connection == "tcp") {
+      conn.write(data);
+    }
+    if (connection == "udp") {
+      conn.send(data, sendPort, IP);
+    }
   });
 
   readStream.on("end", () => {
-    conn.write("finished");
+    if (connection == "tcp") {
+      conn.write("finished");
+    }
+    if (connection == "udp") {
+      conn.send("finished", sendPort, IP);
+    }
   });
 
   readStream.on("error", (err) => {
@@ -269,7 +316,18 @@ function serverResponse(opcode, socket) {
   if (DEBUG_MODE) {
     console.log("DEBUG MODE RESPONSE SENT TO CLIENT :", opcode);
   }
-  socket.write(opcode);
+  if (connection == "tcp") {
+    socket.write(opcode);
+  }
+  if (connection == "udp") {
+    serverUDP.send(opcode, sendPort, IP, (err) => {
+      if (err) {
+        console.error("Failed to send response through UDP");
+      } else {
+        console.log("success");
+      }
+    });
+  }
 }
 
 function toAscii(bin) {

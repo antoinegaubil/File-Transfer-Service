@@ -2,33 +2,34 @@ const readline = require("readline");
 const dgram = require("dgram");
 const net = require("net");
 const fs = require("fs");
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  prompt: "ftp> ",
-});
-
-let client;
+const UDP = require("dgram");
+let clientUDP = UDP.createSocket("udp4");
+let client = new net.Socket();
 let clientData = "";
 let SERVER_IP = "";
 let SERVER_PORT = "";
 let DEBUG_MODE = false;
 let TESTING = false;
 let firstByte = true;
+let connection = "";
 
 if (process.argv[2] === "1") {
   DEBUG_MODE = true;
 }
+let rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: connection + "> ",
+});
 
 // Ask the user to choose between TCP and UDP
 function askProtocol() {
   rl.question("Choose protocol (TCP/UDP): ", (protocol) => {
+    connection = protocol.toLocaleLowerCase();
     if (protocol.toLowerCase() === "tcp") {
       askTcpDetails();
     } else if (protocol.toLowerCase() === "udp") {
-      client = dgram.createSocket("udp4");
-      startClient();
+      askUdpDetails();
     } else {
       console.log("Invalid choice.");
       askProtocol();
@@ -42,11 +43,32 @@ function askTcpDetails() {
     if (commandArgs[0] && commandArgs[1]) {
       SERVER_IP = commandArgs[0];
       SERVER_PORT = commandArgs[1];
-      client = new net.Socket();
       startClient();
     } else {
       console.log("Invalid input. Please provide IP address and Port number.");
       askTcpDetails();
+    }
+  });
+}
+
+function askUdpDetails() {
+  rl.question("Provide IP address and Port Number: ", (details) => {
+    const commandArgs = details.trim().split(" ");
+    if (commandArgs[0] && commandArgs[1] && commandArgs[1] !== "3000") {
+      SERVER_IP = commandArgs[0];
+      SERVER_PORT = commandArgs[1];
+      startClient();
+    } else {
+      if (commandArgs[1] == "3000") {
+        console.log(
+          "In UDP connection, the server is running on port 3000, you cannot pick the same port!"
+        );
+      } else {
+        console.log(
+          "Invalid input. Please provide IP address and Port number."
+        );
+      }
+      askUdpDetails();
     }
   });
 }
@@ -56,48 +78,76 @@ if (require.main === module) {
 }
 
 function startClient() {
+  rl.setPrompt(connection + "> ");
   rl.on("line", (line) => {
     const commandArgs = line.trim().split(" ");
     clientData = commandArgs;
+    let localClient;
+    if (connection == "udp") {
+      localClient = clientUDP;
+    }
+    if (connection == "tcp") {
+      localClient = client;
+    }
     formatRequest(
       commandArgs[0],
       commandArgs[1],
       commandArgs[2],
-      client,
+      localClient,
       TESTING
     );
   });
+  rl.prompt();
 
   rl.on("close", () => {
     console.log("Session has been terminated. Exiting...");
     process.exit(0);
   });
 
-  client.connect(SERVER_PORT, SERVER_IP, () => {
-    if (DEBUG_MODE) console.log("Connected to server");
-    rl.prompt();
-  });
+  if (connection == "tcp") {
+    client.connect(SERVER_PORT, SERVER_IP, () => {
+      if (DEBUG_MODE) console.log("Connected to server");
+    });
 
-  client.on("data", (data) => {
-    if (firstByte) {
-      if (DEBUG_MODE) {
-        console.log("DEBUG MODE RESPONSE FROM SERVER :", data.toString());
+    client.on("data", (data) => {
+      if (firstByte) {
+        if (DEBUG_MODE) {
+          console.log("DEBUG MODE RESPONSE FROM SERVER :", data.toString());
+        }
+        handleServerResponse(data);
       }
-      handleServerResponse(data);
-    }
-  });
+    });
 
-  client.on("end", () => {
-    rl.close();
-    console.log("The session has been terminated");
-  });
+    client.on("end", () => {
+      rl.close();
+      console.log("The session has been terminated");
+    });
+  }
 }
+
+clientUDP.on("message", (message) => {
+  handleServerResponse(message.toString());
+});
 
 function sendCommand(actionBinary) {
   if (DEBUG_MODE) {
     console.log("DEBUG MODE COMMAND SENT TO SERVER :", actionBinary);
   }
-  client.write(actionBinary);
+
+  if (connection == "tcp") {
+    client.write(actionBinary, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
+  if (connection == "udp") {
+    clientUDP.send(actionBinary, 3000, SERVER_IP, (err) => {
+      if (err) {
+        console.error("Failed to send packet through UDP");
+      }
+    });
+  }
 }
 
 function formatRequest(action, file, newFileName, client, isTesting) {
@@ -232,8 +282,6 @@ function formatRequest(action, file, newFileName, client, isTesting) {
       }
   }
 
-  console.log("this is the command!");
-
   return command;
 }
 
@@ -326,17 +374,32 @@ function send(conn, filename) {
   } else {
     filename = "../client/files/" + filename;
   }
-  const readStream = fs.createReadStream(filename, { highWaterMark: 1024 });
-
+  let readStream;
+  if (connection == "tcp") {
+    readStream = fs.createReadStream(filename, { highWaterMark: 1024 });
+  }
+  if (connection == "udp") {
+    readStream = fs.createReadStream(filename);
+  }
   readStream.on("data", (data) => {
     if (DEBUG_MODE) {
       console.log("DEBUG MODE DATA SENT TO SERVER :", data.toString());
     }
-    conn.write(data);
+    if (connection == "tcp") {
+      conn.write(data);
+    }
+    if (connection == "udp") {
+      conn.send(data, 3000, SERVER_IP);
+    }
   });
 
   readStream.on("end", () => {
-    conn.write("finished");
+    if (connection == "tcp") {
+      conn.write("finished");
+    }
+    if (connection == "udp") {
+      conn.send("finished", 3000, SERVER_IP);
+    }
   });
 
   readStream.on("error", (err) => {
@@ -371,26 +434,42 @@ function getRequest(command, socket) {
 
       console.log(`"${filename}" has been downloaded successfully.`);
 
+      if (connection == "tcp") {
+        socket.off("data", onData);
+      }
+      if (connection == "udp") {
+        socket.off("message", onData);
+      }
+
       firstByte = true;
 
       rl.prompt();
-
-      socket.off("data", onData);
     } else {
       handleData(data, writeStream, socket);
     }
   }
 
-  socket.on("data", onData);
+  if (connection == "tcp") {
+    socket.on("data", onData);
 
-  socket.on("end", () => {});
+    socket.on("end", () => {});
 
-  socket.on("error", () => {
-    if (isWritting) {
-      console.error(`Error reading the file!`);
-      writeStream.end();
-    }
-  });
+    socket.on("error", (err) => {
+      if (isWritting) {
+        console.error(`Error reading the file!`);
+        writeStream.end();
+      }
+    });
+  }
+  if (connection == "udp") {
+    socket.on("message", onData);
+    socket.on("error", (err) => {
+      if (isWritting) {
+        console.error(`Error reading the file!`);
+        writeStream.end();
+      }
+    });
+  }
 }
 
 function summaryRequest(command, socket) {
