@@ -262,7 +262,6 @@ function send(conn, filename) {
 
 function sendSummary(conn, filename) {
   filename = "database/" + filename;
-  console.log(filename);
   const readStream = fs.createReadStream(filename);
 
   readStream.on("data", (data) => {
@@ -276,11 +275,21 @@ function sendSummary(conn, filename) {
     const average = numbers.reduce((acc, num) => acc + num, 0) / numbers.length;
     const numericalData = `The minimum value is : ${min}\nThe maximum value is : ${max}\nThe average value is : ${average}\n`;
 
-    conn.write(numericalData);
+    if (connection == "tcp") {
+      conn.write(numericalData);
+    }
+    if (connection == "udp") {
+      conn.send(numericalData, sendPort, IP);
+    }
   });
 
   readStream.on("end", () => {
-    conn.write("finished");
+    if (connection == "tcp") {
+      conn.write("finished");
+    }
+    if (connection == "udp") {
+      conn.send("finished", sendPort, IP);
+    }
   });
 
   readStream.on("error", (err) => {
@@ -323,8 +332,6 @@ function serverResponse(opcode, socket) {
     serverUDP.send(opcode, sendPort, IP, (err) => {
       if (err) {
         console.error("Failed to send response through UDP");
-      } else {
-        console.log("success");
       }
     });
   }

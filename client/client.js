@@ -120,13 +120,21 @@ function startClient() {
 
     client.on("end", () => {
       rl.close();
-      console.log("The session has been terminated");
     });
   }
 }
 
 clientUDP.on("message", (message) => {
-  handleServerResponse(message.toString());
+  if (firstByte) {
+    if (DEBUG_MODE) {
+      console.log("DEBUG MODE RESPONSE FROM SERVER :", data.toString());
+    }
+    handleServerResponse(message);
+  }
+});
+
+clientUDP.on("close", () => {
+  rl.close();
 });
 
 function sendCommand(actionBinary) {
@@ -246,10 +254,17 @@ function formatRequest(action, file, newFileName, client, isTesting) {
       if (file === undefined) {
         console.log(`\nYou need an argument with ${action} command`);
         console.log("Type help for help with the commands\n");
+        rl.prompt();
         break;
       }
       if (file.length > 30) {
         console.log("\n The name of the file is too long\n");
+        rl.prompt();
+        break;
+      }
+      if (file.substr(file.lastIndexOf(".") + 1, 3) !== "txt") {
+        console.log("Only txt files can be summarized");
+        rl.prompt();
         break;
       }
       byte0 =
@@ -273,7 +288,13 @@ function formatRequest(action, file, newFileName, client, isTesting) {
       }
       break;
     case "bye":
-      client.end();
+      if (connection == "tcp") {
+        client.end();
+      }
+      if (connection == "udp") {
+        clientUDP.close();
+      }
+
       break;
     default:
       console.log('\nInvalid command. Use "help" for help.\n');
@@ -438,7 +459,7 @@ function getRequest(command, socket) {
         socket.off("data", onData);
       }
       if (connection == "udp") {
-        socket.off("message", onData);
+        clientUDP.off("message", onData);
       }
 
       firstByte = true;
@@ -462,8 +483,8 @@ function getRequest(command, socket) {
     });
   }
   if (connection == "udp") {
-    socket.on("message", onData);
-    socket.on("error", (err) => {
+    clientUDP.on("message", onData);
+    clientUDP.on("error", (err) => {
       if (isWritting) {
         console.error(`Error reading the file!`);
         writeStream.end();
@@ -500,6 +521,13 @@ function summaryRequest(command, socket) {
 
       console.log(`"${filename}" has been downloaded successfully.`);
 
+      if (connection == "tcp") {
+        socket.off("data", onData);
+      }
+      if (connection == "udp") {
+        clientUDP.off("message", onData);
+      }
+
       firstByte = true;
 
       rl.prompt();
@@ -510,16 +538,27 @@ function summaryRequest(command, socket) {
     }
   }
 
-  socket.on("data", onData);
+  if (connection == "tcp") {
+    socket.on("data", onData);
 
-  socket.on("end", () => {});
+    socket.on("end", () => {});
 
-  socket.on("error", () => {
-    if (isWritting) {
-      console.error(`Error reading the file!`);
-      writeStream.end();
-    }
-  });
+    socket.on("error", (err) => {
+      if (isWritting) {
+        console.error(`Error reading the file!`);
+        writeStream.end();
+      }
+    });
+  }
+  if (connection == "udp") {
+    clientUDP.on("message", onData);
+    clientUDP.on("error", (err) => {
+      if (isWritting) {
+        console.error(`Error reading the file!`);
+        writeStream.end();
+      }
+    });
+  }
 }
 
 module.exports = {
