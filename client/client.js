@@ -1,3 +1,9 @@
+/*
+Antoine Gaubil 40115052
+Kevin Emmanuel, 40066565
+We certify this work is ours.
+*/
+
 const readline = require("readline");
 const dgram = require("dgram");
 const net = require("net");
@@ -127,7 +133,7 @@ function startClient() {
 clientUDP.on("message", (message) => {
   if (firstByte) {
     if (DEBUG_MODE) {
-      console.log("DEBUG MODE RESPONSE FROM SERVER :", data.toString());
+      console.log("DEBUG MODE RESPONSE FROM SERVER :", message.toString());
     }
     handleServerResponse(message);
   }
@@ -416,10 +422,10 @@ function send(conn, filename) {
 
   readStream.on("end", () => {
     if (connection == "tcp") {
-      conn.write("finished");
+      conn.write("@#dqwe23ljdhy3ui&^%7w62");
     }
     if (connection == "udp") {
-      conn.send("finished", 3000, SERVER_IP);
+      conn.send("@#dqwe23ljdhy3ui&^%7w62", 3000, SERVER_IP);
     }
   });
 
@@ -445,8 +451,8 @@ function getRequest(command, socket) {
     if (DEBUG_MODE) {
       console.log("DEBUG MODE DATA RECEIVED FROM SERVER : ", data.toString());
     }
-    if (data.toString().includes("finished")) {
-      const finishedIndex = data.toString().indexOf("finished");
+    if (data.toString().includes("@#dqwe23ljdhy3ui&^%7w62")) {
+      const finishedIndex = data.toString().indexOf("@#dqwe23ljdhy3ui&^%7w62");
       const remainingData = data.toString().slice(0, finishedIndex);
 
       writeStream.write(remainingData);
@@ -511,8 +517,8 @@ function summaryRequest(command, socket) {
     if (DEBUG_MODE) {
       console.log("DEBUG MODE DATA RECEIVED FROM SERVER : ", data.toString());
     }
-    if (data.toString().includes("finished")) {
-      const finishedIndex = data.toString().indexOf("finished");
+    if (data.toString().includes("@#dqwe23ljdhy3ui&^%7w62")) {
+      const finishedIndex = data.toString().indexOf("@#dqwe23ljdhy3ui&^%7w62");
       const remainingData = data.toString().slice(0, finishedIndex);
 
       writeStream.write(remainingData);

@@ -1,3 +1,9 @@
+/*
+Antoine Gaubil 40115052
+Kevin Emmanuel, 40066565
+We certify this work is ours.
+*/
+
 const net = require("net");
 const fs = require("fs");
 const UDP = require("dgram");
@@ -8,6 +14,7 @@ let firstByte = true;
 let connection = "";
 let IP = "";
 let sendPort = ";";
+let TESTING = false;
 
 if (process.argv[3] === "1") {
   DEBUG_MODE = true;
@@ -21,9 +28,11 @@ serverUDP.on("message", (message, rinfo) => {
   IP = rinfo.address;
   sendPort = rinfo.port;
   connection = "udp";
-
+  if (DEBUG_MODE) {
+    console.log("DATA RECEIVED FROM CLIENT : ", message.toString());
+  }
   if (firstByte) {
-    handleRequest(message, serverUDP);
+    handleRequest(message, serverUDP, TESTING);
   }
 });
 
@@ -38,7 +47,7 @@ server.on("connection", (socket) => {
       if (DEBUG_MODE) {
         console.log("DEBUG MODE REQUEST FROM CLIENT :", data.toString());
       }
-      handleRequest(data, socket);
+      handleRequest(data, socket, TESTING);
     }
   });
 
@@ -48,7 +57,6 @@ server.on("connection", (socket) => {
 
   socket.on("error", (err) => {
     console.error(`\nCONNECTION LOST WITH THE CLIENT\n`);
-    // Handle the error event
   });
 });
 
@@ -56,25 +64,26 @@ server.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
 
-function handleRequest(data, socket) {
+function handleRequest(data, socket, TESTING) {
   try {
     let response = "";
     const command = data.toString().trim().split(" ");
     const opcode = command[0].substring(0, 3);
     if (opcode === "000") {
       firstByte = false;
-      handlePut(command, socket);
+      response = handlePut(command, socket, TESTING);
     } else if (opcode === "001") {
-      handleGet(command, socket);
+      response = handleGet(command, socket, TESTING);
     } else if (opcode === "010") {
       handleChange(command, socket);
     } else if (opcode === "011") {
       handleSummary(command, socket);
     } else if (opcode === "100") {
-      response = handleHelp(socket);
+      response = handleHelp(socket, TESTING);
     } else {
       handleUnknown(socket);
     }
+
     return response;
   } catch (error) {
     console.error(`Error handling request: ${error.message}`);
@@ -82,27 +91,30 @@ function handleRequest(data, socket) {
   }
 }
 
-function handlePut(command, socket) {
+function handlePut(command, socket, TESTING) {
   const filename = toAscii(command[1]);
-  const filePath = "database/" + filename;
+  let filePath;
+  if (!TESTING) {
+    filePath = "database/" + filename;
+  } else {
+    filePath = "../server/database/" + filename;
+  }
 
   const writeStream = fs.createWriteStream(filePath);
   let isWritting = false;
 
   function onData(data) {
-    if (DEBUG_MODE) {
-      console.log("DEBUG MODE DATA RECEIVED FROM CLIENT : ", data.toString());
-    }
     isWritting = true;
-    if (data.toString().includes("finished")) {
-      const finishedIndex = data.toString().indexOf("finished");
+    if (data.toString().includes("@#dqwe23ljdhy3ui&^%7w62")) {
+      const finishedIndex = data.toString().indexOf("@#dqwe23ljdhy3ui&^%7w62");
       const remainingData = data.toString().slice(0, finishedIndex);
 
       writeStream.write(remainingData);
       writeStream.end();
       isWritting = false;
-
-      console.log("Put request handled with success");
+      if (!TESTING) {
+        console.log("Put request handled with success");
+      }
       serverResponse("000", socket);
 
       if (connection == "tcp") {
@@ -117,33 +129,40 @@ function handlePut(command, socket) {
       handleData(data, writeStream, socket);
     }
   }
+  if (!TESTING) {
+    if (connection == "tcp") {
+      socket.on("data", onData);
 
-  if (connection == "tcp") {
-    socket.on("data", onData);
+      socket.on("end", () => {});
 
-    socket.on("end", () => {});
-
-    socket.on("error", (err) => {
-      if (isWritting) {
-        console.error(`Error reading the file!`);
-        writeStream.end();
-      }
-    });
+      socket.on("error", (err) => {
+        if (isWritting) {
+          console.error(`Error reading the file!`);
+          writeStream.end();
+        }
+      });
+    }
+    if (connection == "udp") {
+      serverUDP.on("message", onData);
+      serverUDP.on("error", (err) => {
+        if (isWritting) {
+          console.error(`Error reading the file!`);
+          writeStream.end();
+        }
+      });
+    }
   }
-  if (connection == "udp") {
-    serverUDP.on("message", onData);
-    serverUDP.on("error", (err) => {
-      if (isWritting) {
-        console.error(`Error reading the file!`);
-        writeStream.end();
-      }
-    });
-  }
+  return "000";
 }
 
-function handleGet(command, socket) {
+function handleGet(command, socket, TESTING) {
   const filenameGet = toAscii(command[1]);
-  const filePathGet = "database/" + filenameGet;
+  let filePathGet;
+  if (TESTING) {
+    filePathGet = "../server/database/" + filenameGet;
+  } else {
+    filePathGet = "database/" + filenameGet;
+  }
 
   if (fs.existsSync(filePathGet)) {
     const filenameLength = (filenameGet.length + 1)
@@ -155,11 +174,17 @@ function handleGet(command, socket) {
       "001" + filenameLength + " " + toBinary(filenameGet) + " " + sizeBinary;
 
     serverResponse(commandGet, socket);
-    send(socket, filenameGet);
+    if (!TESTING) {
+      send(socket, filenameGet);
+    }
 
-    console.log("Get request handled with success, data has been sent");
+    if (!TESTING) {
+      console.log("Get request handled with success, data has been sent");
+    }
+    return commandGet;
   } else {
     serverResponse("011", socket);
+    return "011";
   }
 }
 
@@ -238,19 +263,25 @@ function send(conn, filename) {
       console.log("DEBUG DATA SENT TO CLIENT :", data.toString());
     }
     if (connection == "tcp") {
+      if (DEBUG_MODE) {
+        console.log("DATA SENT TO CLIENT : ", data.toString());
+      }
       conn.write(data);
     }
     if (connection == "udp") {
+      if (DEBUG_MODE) {
+        console.log("DATA SENT TO CLIENT : ", data.toString());
+      }
       conn.send(data, sendPort, IP);
     }
   });
 
   readStream.on("end", () => {
     if (connection == "tcp") {
-      conn.write("finished");
+      conn.write("@#dqwe23ljdhy3ui&^%7w62");
     }
     if (connection == "udp") {
-      conn.send("finished", sendPort, IP);
+      conn.send("@#dqwe23ljdhy3ui&^%7w62", sendPort, IP);
     }
   });
 
@@ -285,10 +316,10 @@ function sendSummary(conn, filename) {
 
   readStream.on("end", () => {
     if (connection == "tcp") {
-      conn.write("finished");
+      conn.write("@#dqwe23ljdhy3ui&^%7w62");
     }
     if (connection == "udp") {
-      conn.send("finished", sendPort, IP);
+      conn.send("@#dqwe23ljdhy3ui&^%7w62", sendPort, IP);
     }
   });
 
@@ -298,7 +329,7 @@ function sendSummary(conn, filename) {
   });
 }
 
-function handleHelp(socket) {
+function handleHelp(socket, TESTING) {
   const optionsString = `Here are the 6 possible options:
     1. get filename.xxx to retrieve a file from the server
     2. put filename.xxx to store a file in the server
@@ -310,7 +341,9 @@ function handleHelp(socket) {
   const helpAnswer = toBinary(optionsString);
   const opcode =
     "110" + (optionsString.length + 1).toString(2).padStart(5, "0");
-  console.log("Help request handled with success");
+  if (!TESTING) {
+    console.log("Help request handled with success");
+  }
   serverResponse(opcode + " " + helpAnswer, socket);
 
   return opcode + " " + helpAnswer;
