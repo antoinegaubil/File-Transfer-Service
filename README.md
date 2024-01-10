@@ -1,6 +1,6 @@
 This repository contains a client-server application for communication using both TCP and UDP protocols. Follow the instructions below to run the client and server files, and choose between debug modes.
 
-## Run the Client
+# Run the Client
 
 ### Debug Mode ON
 node client.js 1
