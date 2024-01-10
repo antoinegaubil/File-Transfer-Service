@@ -1,8 +1,3 @@
-/*
-Antoine Gaubil 40115052
-Kevin Emmanuel, 40066565
-We certify this work is ours.
-*/
 const net = require("net");
 const clientFunctions = require("../client/client.js");
 const serverFunctions = require("../server/server.js");
