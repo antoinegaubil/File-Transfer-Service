@@ -53,4 +53,3 @@ node test_2.js 0
 - Ensure correct port numbers and debug modes are used for both client and server.
 - For UDP, the client's port number must differ from 3000.
 
-Feel free to explore and contribute to this project. If you encounter any issues or have suggestions, please create an issue in the repository.
