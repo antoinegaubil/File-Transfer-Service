@@ -1,8 +1,4 @@
-/*
-Antoine Gaubil 40115052
-Kevin Emmanuel, 40066565
-We certify this work is ours.
-*/
+
 
 const readline = require("readline");
 const dgram = require("dgram");
